@@ -2,8 +2,99 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-
+// import React, { useContext, useState, useEffect } from 'react';
+// import firebaseAPP from "../plugins/firebase";
+// import app, { db, useUser, login, logout } from "../plugins/firebase";
+import liff from '@line/liff'; // 追加
+import { getAuth, signInAnonymously } from "firebase/auth";
+import React, { useEffect } from 'react';
 const Home: NextPage = () => {
+
+  // const auth = getAuth();
+  // signInAnonymously(auth)
+  //   .then(() => {
+  //     // Signed in..
+  //   })
+  //   .catch((error) => {
+  //     const errorCode = error.code;
+  //     const errorMessage = error.message;
+  //     // ...
+  //   });
+
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_DATABASE_URL,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID
+  };
+
+  // const loginUrl = [process.env.LINE_LOGINURL]
+  // const myLiffId = "1656149559-xXM4l4Gp"
+  const loginUrl = "https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https%3A%2F%2Fkonoyubi.site%2F"
+
+  // window.onload = function (e) {
+  // const onloadd = function (e) {
+  //   liff
+  //     .init({ liffId: myLiffId })
+  //     .then(() => {
+  //       // 初期化完了
+  //       initializeApp();
+  //     })
+  // };
+  // function initializeApp() {
+  //   // ログインチェック
+  //   if (liff.isLoggedIn()) {
+  //     //ログイン済
+  //     // onload()
+  //   } else {
+  //     // 未ログイン
+  //     let result = window.confirm("LINE Loginしますか？新着情報を確認する場合はキャンセルしてください。");
+  //     if (result) {
+  //       liff.login();
+  //       // window.location.href = loginUrl;
+  //     }
+  //   }
+  // }
+  const lineClick = function () {
+    // liff.login();
+    window.location.href = loginUrl;
+  };
+  // const onload = function (e) {
+  //     if (liff.isLoggedIn()) {
+  //         liff.getProfile()
+  //             .then(profile => {
+  //                 setNName(profile.displayName)
+  //                 setName(profile.userId)
+  //                 setAvatar(profile.pictureUrl)
+  //                 console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
+  //                 // firebase.firestore().settings({
+  //                 //     ignoreUndefinedProperties: true,
+  //                 // })
+  //                 db.collection('users').doc(`${profile.userId}`).set({
+  //                     name: `${profile.userId}`,
+  //                     nName: `${profile.displayName}`,
+  //                     avatar: `${profile.pictureUrl}`,
+  //                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  //                 }, { merge: true }//←上書きされないおまじない
+  //                 )
+  //                 history.push(`/Main`)
+  //             })
+  //     }
+  // }
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -14,13 +105,33 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://konoyubi.site">konoyubi</a>
         </h1>
         <section className="h-screen w-4/5 max-w-5xl mx-auto flex items-center justify-center flex-col">
-          <h1 className="mb-4 text-green-500 text-3xl">サンプル</h1>
+          <button onClick={lineClick}>
+            <h1 className="mb-4 text-green-500 text-3xl">ログイン</h1></button>
           <p className="mb-2 text-center">sample text</p>
           <button className="btn-blue">Let's Start!!</button>
         </section>
+
+        <a href="https://access.line.me/oauth2/v2.1/authorize?
+                    response_type=code&
+                    client_id=[チャネルID]&
+                    redirect_uri=[コールバックURL]&
+                    state=12345abcde&
+                    scope=profile%20openid&
+                    nonce=09876xyz">
+          <div>
+            ログイン
+          </div>
+        </a>
+
+
+
+
+
+
+
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.tsx</code>
