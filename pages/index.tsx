@@ -180,7 +180,7 @@ const Home: NextPage = () => {
           </div>
         </a>
 
-        {/* <button className="button" onClick={getUserInfo}>show user info</button> */}
+        <button className="button" onClick={getUserInfo}>show user info</button>
 
 
         {/* <FirebaseAuthGoogleButton />
