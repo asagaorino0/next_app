@@ -1,42 +1,39 @@
 import type { NextPage } from 'next'
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 // import React, { useContext, useState, useEffect } from 'react';
-// import firebaseAPP from "../plugins/firebase";
-// import app, { db, useUser, login, logout } from "../plugins/firebase";
-import liff from '@line/liff'; // 追加
-import { getAuth, signInAnonymously } from "firebase/auth";
-import React, { useEffect } from 'react';
+// import app, { db, collection, useUser, login, logout } from "../plugins/firebase";
+import liff from '@line/liff';
+// import { getAuth, signInAnonymously, db, firebaseAuth, googleProvider } from "../plugins/firebase";
+// import { linkWithPopup } from 'firebase/auth'
+// import FirebaseAuthUserInfo from '../src/Firebase/AuthUserInfo';
+// import FirebaseAuthSigninButton from '../src/firebase/FirebaseAuthSigninButton';
+// import FirebaseAuthSignupButton from '../src/firebase/FirebaseAuthSignupButton';
+// import FirebaseAuthGoogleButton from '../src/firebase/FirebaseAuthGoogleButton';
+// import FirebaseAuthSignoutButton from '../src/firebase/FirebaseAuthSignoutButton';
+// import FirestoreAddButton from '../src/firebase/FirestoreAddButton';
+// import FirestoreList from '../src/firebase/FirestoreList';
+
+import { initializeApp, getApps } from "firebase/app"
+
+
+// console.log('firebase', firebaseConfig)
+
 const Home: NextPage = () => {
 
-  // const auth = getAuth();
-  // signInAnonymously(auth)
-  //   .then(() => {
-  //     // Signed in..
-  //   })
-  //   .catch((error) => {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     // ...
-  //   });
+  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
+  const [uid, setUid] = useState("");
 
-  const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    databaseURL: process.env.REACT_APP_DATABASE_URL,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_APP_ID
-  };
-
-  // const loginUrl = [process.env.LINE_LOGINURL]
-  // const myLiffId = "1656149559-xXM4l4Gp"
+  // const loginUrl = process.env.LINE_LOGINURL
+  const myLiffId = "1656149559-xXM4l4Gp"
   const loginUrl = "https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https%3A%2F%2Fkonoyubi.site%2F"
+  // const loginUrl = "https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https://next-app-theta-teal.vercel.app/%2F"
 
   // window.onload = function (e) {
-  // const onloadd = function (e) {
+  // const onloadd = function () {
   //   liff
   //     .init({ liffId: myLiffId })
   //     .then(() => {
@@ -59,34 +56,90 @@ const Home: NextPage = () => {
   //   }
   // }
   const lineClick = function () {
+    // onloadd()
+    console.log('succes!')
     // liff.login();
     window.location.href = loginUrl;
+    onload()
   };
-  // const onload = function (e) {
-  //     if (liff.isLoggedIn()) {
-  //         liff.getProfile()
-  //             .then(profile => {
-  //                 setNName(profile.displayName)
-  //                 setName(profile.userId)
-  //                 setAvatar(profile.pictureUrl)
-  //                 console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
-  //                 // firebase.firestore().settings({
-  //                 //     ignoreUndefinedProperties: true,
-  //                 // })
-  //                 db.collection('users').doc(`${profile.userId}`).set({
-  //                     name: `${profile.userId}`,
-  //                     nName: `${profile.displayName}`,
-  //                     avatar: `${profile.pictureUrl}`,
-  //                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  //                 }, { merge: true }//←上書きされないおまじない
-  //                 )
-  //                 history.push(`/Main`)
-  //             })
-  //     }
+
+  const onload = function () {
+    // if (liff.isLoggedIn()) {
+    //   liff.getProfile()
+    //     .then(profile => {
+    //       setName(profile.displayName)
+    //       setUid(profile.userId)
+    //       setAvatar(profile.pictureUrl)
+    //       console.log("{login}", `${name}`, `${avatar}`, `${uid}`);
+    //       console.log('succes!')
+    //     })
+    // }
+  }
+
+  // const onload = function () {
+  //   if (liff.isLoggedIn()) {
+  //     liff.getProfile()
+  //       .then(profile => {
+  //         // setNName(profile.displayName)
+  //         // setName(profile.userId)
+  //         // setAvatar(profile.pictureUrl)
+  //         // console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
+  //         console.log('succes!')
+  //         db.collection('users').doc(`${profile.userId}`).set({
+  //           name: `${profile.userId}`,
+  //           nName: `${profile.displayName}`,
+  //           avatar: `${profile.pictureUrl}`,
+  //           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  //         }, { merge: true }//←上書きされないおまじない
+  //         )
+  //         history.push(`/Main`)
+  //       })
+  //   }
   // }
 
 
+  // const lineClick = () => {
+  //   linkWithPopup(user:User,googleProvider)
+  //     .then((result) => {
+  //       const user = result.user
+  //       setCurrentUser({
+  //         uid: user.uid,
+  //         displayName: user.displayName,
+  //         isAnonymus: user.isAnonymous,
+  //       })
+  //     })
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //     .catch((error) => {
+  //       // Handle Errors here.
+  //     })
+  // }
 
+
+  // /* 追加: UserProfileをAlertで表示 */
+  const getUserInfo = () => {
+    liff.init({ liffId: "1656650515-ENMoxvjb" as string })
+      .then(() => {
+        if (!liff.isLoggedIn()) {
+          liff.login({}) // ログインしていなければ最初にログインする
+          // liff.getProfile()  // ユーザ情報を取得する
+          //   .then(profile => {
+          //     const userId: string = profile.userId
+          //     const displayName: string = profile.displayName
+          //     console.log(`Name: ${displayName}, userId: ${userId}`)
+          //   })
+
+        } else if (liff.isInClient()) {
+          liff.getProfile()  // ユーザ情報を取得する
+            .then(profile => {
+              const userId: string = profile.userId
+              const displayName: string = profile.displayName
+              console.log(`Name: ${displayName}, userId: ${userId}`)
+            }).catch(function (error) {
+              window.alert('Error sending message: ' + error);
+            });
+        }
+      })
+  }
 
 
 
@@ -114,20 +167,28 @@ const Home: NextPage = () => {
           <button className="btn-blue">Let's Start!!</button>
         </section>
 
-        <a href="https://access.line.me/oauth2/v2.1/authorize?
-                    response_type=code&
-                    client_id=[チャネルID]&
-                    redirect_uri=[コールバックURL]&
-                    state=12345abcde&
-                    scope=profile%20openid&
-                    nonce=09876xyz">
+        {/* <a href="https://access.line.me/oauth2/v2.1/authorize?
+        app_id=1656650515-ENMoxvjb&
+        client_id=1656650515&
+        scope=chat_message.write+openid+profile&
+        state=MTSFhIGGxsff&
+        redirect_uri=https://next-app-theta-teal.vercel.app/"> */}
+        <a href="https://access.line.me/oauth2/v2.1/authorize?app_id=1656650515-ENMoxvjb&client_id=1656650515&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https://next-app-theta-teal.vercel.app/">
+          {/* <a href="https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https%3A%2F%2Fkonoyubi.site%2F"> */}
           <div>
             ログイン
           </div>
         </a>
 
+        {/* <button className="button" onClick={getUserInfo}>show user info</button> */}
 
 
+        {/* <FirebaseAuthGoogleButton />
+        <FirebaseAuthSignoutButton />
+
+
+        <FirestoreAddButton />
+        <FirestoreList /> */}
 
 
 
@@ -137,35 +198,6 @@ const Home: NextPage = () => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
       </main>
 
       <footer className={styles.footer}>

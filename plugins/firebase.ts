@@ -1,24 +1,37 @@
 // v9 compat packages are API compatible with v8 code
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { initializeApp, getApps } from "firebase/app"
+// import { initializeApp, getApps } from "firebase/app"
 // import { getFirestore } from "firebase/firestore"
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-// import { getAuth, signInWithRedirect, signOut, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithRedirect, signOut, GoogleAuthProvider } from "firebase/auth";
+
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    databaseURL: process.env.REACT_APP_DATABASE_URL,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_APP_ID
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BAKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
-export const app = initializeApp(firebaseConfig);
-const db = getFirestore(app)
-export { db }
-import { getAuth, signInAnonymously } from "firebase/auth";
+
+// const app = getApps
+// if (!app.length) {
+//     initializeApp(firebaseConfig)
+// }
+
+
+
+
+
+console.log('firebase:', firebaseConfig)
+const db = getFirestore()
+// import { getAuth, signInAnonymously } from "firebase/auth";
+const firebaseAuth = getAuth()
+const googleProvider = new GoogleAuthProvider()
+export { firebaseAuth, db, googleProvider, firebaseConfig }
 
 // export const auth = getAuth();
 // signInAnonymously(auth)
